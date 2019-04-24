@@ -538,7 +538,7 @@ namespace JeuDeLaVie
 
                 int colonne = Convert.ToInt16(Console.ReadLine());
 
-                int[,] grille = Grille(ligne, colonne, remplissage);
+                
 
 
 
@@ -550,8 +550,16 @@ namespace JeuDeLaVie
 
                 Console.WriteLine("Voulez vous afficher les etats intermediaires ? (oui/non)");
                 etatsInter = Convert.ToString(Console.ReadLine());
-
-                do
+                
+                Console.WriteLine("Choisissez le mode de jeu : ");
+                Console.WriteLine("Une seule population > 1 ");
+                Console.WriteLine("2 populations adverses > 2 ");
+                int choixMode = Convert.ToInt16(Console.ReadLine());
+                
+                if(choixMode==1)
+                {
+                    int[,] grille = Grille(ligne, colonne, remplissage);
+                    do
                 {
                     Console.Clear();
                     AfficherGrille(grille);         //Affiche la grille de la nouvelle generation dans la console.
@@ -579,10 +587,48 @@ namespace JeuDeLaVie
 
                 } while (g == "");
 
-                Console.WriteLine("Voulez vous recommencer ou fermer le programme\n 1 : Recommencer\n 2: Fermer\n");
+                
+            
+            if(choixMode==2)
+            {
+                int[,] grille = Grille1v1(ligne, colonne, remplissage);
+                
+                do
+                {
+                    Console.Clear();
+                    AfficherGrille(grille);         //Affiche la grille de la nouvelle generation dans la console.
+                    Console.WriteLine("Generation n :" + compteurGeneration);       //Donne le numero de generation
+                    Console.WriteLine("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");         // Affiche un compteur du nombre de cellules vivantes a la generation donnee.
+
+
+
+
+                    if (etatsInter == "oui")
+                    {
+                        Console.WriteLine("Appuyer sur une touche pour continuer");
+                        Console.ReadKey();
+                        Console.Clear();
+                        //Cree une grille intermediaire.
+                        AfficherGrille(GrilleEtatInter(grille, ligne, colonne));
+
+
+                    }
+
+                    Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
+                    g = Convert.ToString(Console.ReadLine());
+                    grille = NewGrille(grille);
+                    
+               } while (g == "");
+                
+            }
+
+            Console.WriteLine("Voulez vous recommencer ou fermer le programme\n 1 : Recommencer\n 2: Fermer\n");
                 h = Convert.ToInt16(Console.ReadLine());
 
             } while (h != 2);
+                
+                
+                
 
             /*int h = 0;
 
