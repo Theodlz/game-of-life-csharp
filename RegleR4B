@@ -1,4 +1,6 @@
-		compteur = 0;
+static void RegleR4B
+{
+compteur = 0;
 		for (numLigne = i - 2; numLigne <= i + 2; numLigne++)
                 {
                         for (numColonne = j - 2; numColonne <= j + 2; numColonne++) //Cette boucle for et celle du dessus permettent un scan des 8 cases autour du curseur
@@ -50,3 +52,5 @@
                             numColonne = numColonne2;
                         }
                     }
+		    
+}
