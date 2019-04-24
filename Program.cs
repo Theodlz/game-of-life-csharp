@@ -96,13 +96,13 @@ namespace JeuDeLaVie
                         {
                             int numColonne2 = numColonne;
                             int numLigne2 = numLigne;
-                            if (numLigne == grille.GetLength(0))//Si le curseur de scan est tout en bas de la matrice, la ligne du bas passe en haut de la matrice
-                            {
-                                numLigne = 0;
-                            }
                             if (numLigne == -1)//Si le curseur de scan est tout en haut de la matrice, la ligne du haut passe en bas de la matrice
                             {
                                 numLigne = grille.GetLength(0) - 1;
+                            }
+                            if (numLigne == grille.GetLength(0))//Si le curseur de scan est tout en bas de la matrice, la ligne du bas passe en haut de la matrice
+                            {
+                                numLigne = 0;
                             }
                             if (numColonne == -1)//Si le curseur de scan est tout à gauche de la matrice, la colonne de gauche passe à droite de la matrice 
                             {
@@ -120,6 +120,8 @@ namespace JeuDeLaVie
                             numColonne = numColonne2;
                         }
                     }
+                    
+                    nouvelleGrille[i,j]=grille[i,j];
 
                     if (grille[i, j] == 1)
                     {
@@ -130,13 +132,12 @@ namespace JeuDeLaVie
                     {
                         nouvelleGrille[i, j] = 0;
                     }
-                    else
-                    {
-                        if (compteur == 3)
+                    if (compteur == 3)
                         {
                             nouvelleGrille[i, j] = 1;
                         }
-                    }
+                    
+                    
                 }
             }
             return nouvelleGrille;
