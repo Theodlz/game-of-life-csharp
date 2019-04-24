@@ -359,7 +359,7 @@ namespace JeuDeLaVie
                     {
                         compteurFamille2Rang1--;
                     }
-
+                     nouvelleGrille[i,j]=grille[i,j];   
 
                     if ((grille[i, j] == 1) && (compteurFamille1Rang1 < 2))
                         nouvelleGrille[i, j] = 0;
