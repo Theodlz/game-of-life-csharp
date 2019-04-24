@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,18 +9,18 @@ namespace JeuDeLaVie
 {
     class Program
     {
-       
+
         static int[,] Grille(int ligne, int colonne, double remplissage)
         {
             int[,] grille = new int[ligne, colonne];
             int totalRemplissage = Convert.ToInt16(remplissage * (colonne * ligne));
             Random rand = new Random();
 
-            for(int h=0;h<totalRemplissage;h++)
+            for (int h = 0; h < totalRemplissage; h++)
             {
                 int i = rand.Next(0, ligne);
                 int j = rand.Next(0, colonne);
-                if(grille[i, j] == 0)
+                if (grille[i, j] == 0)
                 {
                     grille[i, j] = 1;
                 }
@@ -31,19 +31,19 @@ namespace JeuDeLaVie
             }
             return grille;
         }
-        
-        static void AfficherGrille(int[,]grille)
+
+        static void AfficherGrille(int[,] grille)
         {
             for (int i = 0; i < grille.GetLength(0); i++)
             {
 
                 for (int j = 0; j < grille.GetLength(1); j++)
                 {
-                    if (grille[i,j]==0)
+                    if (grille[i, j] == 0)
                     {
-                        
+
                         Console.Write(" . ");
-                      
+
 
                     }
                     if (grille[i, j] == 1)
@@ -51,10 +51,10 @@ namespace JeuDeLaVie
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.Write(" # ");
                         Console.ResetColor();
-                       
+
 
                     }
-                    if (grille[i, j] == 4)
+                    if (grille[i, j] == 2)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkMagenta;
                         Console.Write(" # ");
@@ -62,15 +62,15 @@ namespace JeuDeLaVie
 
 
                     }
-                    if (grille[i, j] == 2)
+                    if (grille[i, j] == 3)
                     {
-                        Console.ForegroundColor=ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write(" * ");
                         Console.ResetColor();
 
 
                     }
-                    if (grille[i, j] == 3)
+                    if (grille[i, j] == 4)
                     {
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write(" - ");
@@ -125,7 +125,7 @@ namespace JeuDeLaVie
                     {
                         compteur--;
                     }
-                    
+
                     if (compteur < 2 || compteur > 3)
                     {
                         nouvelleGrille[i, j] = 0;
@@ -141,7 +141,7 @@ namespace JeuDeLaVie
             }
             return nouvelleGrille;
         }
-            static int[,] GrilleEtatInter(int[,] grille, int ligne, int colonne)
+        static int[,] GrilleEtatInter(int[,] grille, int ligne, int colonne)
         {
             int[,] grilleEtatInter = new int[ligne, colonne];
 
@@ -244,12 +244,12 @@ namespace JeuDeLaVie
                     //On change les valeurs de la nouvelle matrice en fonction des regles du jeu
 
                     if ((grille[i, j] == 1) && (k < 2))
-                        grilleEtatInter[i, j] = 2;
+                        grilleEtatInter[i, j] = 3;
 
                     if ((grille[i, j] == 1) && (k > 3))
-                        grilleEtatInter[i, j] = 2;
-                    if ((grille[i, j] == 0) && (k == 3))
                         grilleEtatInter[i, j] = 3;
+                    if ((grille[i, j] == 0) && (k == 3))
+                        grilleEtatInter[i, j] = 4;
 
 
 
@@ -263,39 +263,39 @@ namespace JeuDeLaVie
         static int[,] Grille1v1(int ligne, int colonne, double remplissage)
         {
             int[,] grille = new int[ligne, colonne];
-            int totalRemplissage = Convert.ToInt16(remplissage * (colonne * ligne)/2);
+            int totalRemplissage = Convert.ToInt16(remplissage * (colonne * ligne) / 2);
             Random rand = new Random();
 
-            
-                for(int k=0; k<totalRemplissage;k++)
+
+            for (int k = 0; k < totalRemplissage; k++)
+            {
+                int i = rand.Next(0, ligne);
+                int j = rand.Next(0, colonne);
+                if (grille[i, j] == 0)
                 {
-                    int i = rand.Next(0, ligne);
-                    int j = rand.Next(0, colonne);
-                    if (grille[i, j] == 0)
-                    {
-                        grille[i, j] = 1;
-                    }
-                    else
-                    {
-                        k--;
-                    }
+                    grille[i, j] = 1;
                 }
-                for (int k = 0; k < totalRemplissage; k++)
+                else
                 {
-                    int i = rand.Next(0, ligne);
-                    int j = rand.Next(0, colonne);
-                    if (grille[i, j] == 0)
-                    {
-                        grille[i, j] = 4;
-                    }
-                    else
-                    {
-                        k--;
-                    }
+                    k--;
                 }
+            }
+            for (int k = 0; k < totalRemplissage; k++)
+            {
+                int i = rand.Next(0, ligne);
+                int j = rand.Next(0, colonne);
+                if (grille[i, j] == 0)
+                {
+                    grille[i, j] = 4;
+                }
+                else
+                {
+                    k--;
+                }
+            }
 
 
-            
+
 
             return grille;
 
@@ -312,7 +312,7 @@ namespace JeuDeLaVie
                     int compteurFamille2Rang1 = 0;
                     int numLigne = i;
                     int numColonne = j;
-                    
+
                     //SCAN DE RANG 1
                     for (numLigne = i - 1; numLigne <= i + 1; numLigne++)
                     {
@@ -349,7 +349,7 @@ namespace JeuDeLaVie
                         }
                     }
 
-                   
+
                     if (grille[i, j] == 1)
                     {
                         compteurFamille1Rang1--;
@@ -369,26 +369,26 @@ namespace JeuDeLaVie
                         nouvelleGrille[i, j] = 0;
                     if ((grille[i, j] == 2) && (compteurFamille2Rang1 > 3))
                         nouvelleGrille[i, j] = 0;
-                        
-                        
-                    if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3) && (compteurFamille1Rang2 == 3))
+
+
+                    if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3) && (compteurFamille2Rang1 == 3))
                     {
-                        if(RegleR4B(grille)>0)
-                                grille[i,j]=1;
-                        if(RegleR4B(grille)<0)
-                                grille[i,j]=2;
-                        if(RegleR4B(grille)=0)
+                        if (RegleR4B(grille,i,j) > 0)
+                            grille[i, j] = 1;
+                        if (RegleR4B(grille, i, j) < 0)
+                            grille[i, j] = 2;
+                        if (RegleR4B(grille, i, j) == 0)
                         {
-                            if(CompteurCellulesVivantes1v1(grille)>0)
-                                grille[i,j]=1;
-                            if(CompteurCellulesVivantes1v1(grille)<0)
-                                grille[i,j]=2;
+                            if (CompteurCellulesVivantes1v1(grille) > 0)
+                                grille[i, j] = 1;
+                            if (CompteurCellulesVivantes1v1(grille) < 0)
+                                grille[i, j] = 2;
                         }
-                                
-                       
-                    
+
+
+
                     }
-                        
+
                     if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3))
                         nouvelleGrille[i, j] = 1;
                     if ((grille[i, j] == 0) && (compteurFamille2Rang1 == 3))
@@ -397,7 +397,7 @@ namespace JeuDeLaVie
             }
             return nouvelleGrille;
         }
-        
+
         static int CompteurCellulesVivantes1v1(int[,] grille)
         {
             int compteur = 0;
@@ -425,67 +425,92 @@ namespace JeuDeLaVie
                     }
 
                 }
-                
+
             }
             return compteur;
         }
-        
-        static int RegleR4B(int[,] grille)
-            {
-                compteur = 0;
-		            for (numLigne = i - 2; numLigne <= i + 2; numLigne++)
-                        {
-                        for (numColonne = j - 2; numColonne <= j + 2; numColonne++) //Cette boucle for et celle du dessus permettent un scan des 8 cases autour du curseur
-                        {
-                            int numColonne2 = numColonne;
-                            int numLigne2 = numLigne;
-                            if (numLigne == grille.GetLength(0))//Si le curseur de scan est tout en bas de la matrice, la ligne du bas passe en haut de la matrice
-                            {
-                                numLigne = 0;
-                            }
-                            if (numLigne == grille.GetLength(0) + 1)
-                            {
-                                numLigne = 1;
-                            }
-                            if (numLigne == -1)//Si le curseur de scan est tout en haut de la matrice, la ligne du haut passe en bas de la matrice
-                            {
-                                numLigne = grille.GetLength(0) - 1;
-                            }
-                            if (numLigne == -2)
-                            {
-                                numLigne = grille.GetLength(0) - 2;
-                            }
-                            if (numColonne == -1)//Si le curseur de scan est tout à gauche de la matrice, la colonne de gauche passe à droite de la matrice 
-                            {
-                                numColonne = grille.GetLength(1) - 1;
-                            }
-                            if (numColonne == -2)
-                            {
-                                numColonne = grille.GetLength(1) - 2;
-                            }
-                            if (numColonne == grille.GetLength(1))//Si le curseur de scan est tout à droite de la matrice, la colonne de droite passe à gauche de la matrice 
-                            {
-                                numColonne = 0;
-                            }
-                            if (numColonne == grille.GetLength(1) + 1)
-                            {
-                                numColonne = 1;
-                            }
 
-                            if (grille[numLigne, numColonne] == 1)
-                            {
-                                compteur++;
-                            }
-                            if (grille[numLigne, numColonne] == 2)
-                            {
-                                compteur--;
-                            }
-                            numLigne = numLigne2;
-                            numColonne = numColonne2;
-                        }
+        static int CompteurCellulesVivantes(int[,] grille)
+        {
+            int compteur = 0;
+            for (int i = 0; i < grille.GetLength(0); i++)
+            {
+
+                for (int j = 0; j < grille.GetLength(1); j++)
+                {
+
+                    if (grille[i, j] == 1)
+                    {
+
+                        compteur++;
+
+
+
                     }
-	            return compteur;	    
+                    
+
+                }
+
             }
+            return compteur;
+        }
+
+        static int RegleR4B(int[,] grille,int i, int j)
+        {
+            int compteur = 0;
+            for (int numLigne = i - 2; numLigne <= i + 2; numLigne++)
+            {
+                for (int numColonne = j - 2; numColonne <= j + 2; numColonne++) //Cette boucle for et celle du dessus permettent un scan des 8 cases autour du curseur
+                {
+                    int numColonne2 = numColonne;
+                    int numLigne2 = numLigne;
+                    if (numLigne == grille.GetLength(0))//Si le curseur de scan est tout en bas de la matrice, la ligne du bas passe en haut de la matrice
+                    {
+                        numLigne = 0;
+                    }
+                    if (numLigne == grille.GetLength(0) + 1)
+                    {
+                        numLigne = 1;
+                    }
+                    if (numLigne == -1)//Si le curseur de scan est tout en haut de la matrice, la ligne du haut passe en bas de la matrice
+                    {
+                        numLigne = grille.GetLength(0) - 1;
+                    }
+                    if (numLigne == -2)
+                    {
+                        numLigne = grille.GetLength(0) - 2;
+                    }
+                    if (numColonne == -1)//Si le curseur de scan est tout à gauche de la matrice, la colonne de gauche passe à droite de la matrice 
+                    {
+                        numColonne = grille.GetLength(1) - 1;
+                    }
+                    if (numColonne == -2)
+                    {
+                        numColonne = grille.GetLength(1) - 2;
+                    }
+                    if (numColonne == grille.GetLength(1))//Si le curseur de scan est tout à droite de la matrice, la colonne de droite passe à gauche de la matrice 
+                    {
+                        numColonne = 0;
+                    }
+                    if (numColonne == grille.GetLength(1) + 1)
+                    {
+                        numColonne = 1;
+                    }
+
+                    if (grille[numLigne, numColonne] == 1)
+                    {
+                        compteur++;
+                    }
+                    if (grille[numLigne, numColonne] == 2)
+                    {
+                        compteur--;
+                    }
+                    numLigne = numLigne2;
+                    numColonne = numColonne2;
+                }
+            }
+            return compteur;
+        }
 
 
         [System.STAThreadAttribute()]
@@ -513,10 +538,10 @@ namespace JeuDeLaVie
                 int colonne = Convert.ToInt16(Console.ReadLine());
 
                 int[,] grille = Grille(ligne, colonne, remplissage);
-                
 
 
-                
+
+
                 string g = "";
                 int compteurGeneration = 1;
                 string etatsInter = "";
@@ -532,9 +557,9 @@ namespace JeuDeLaVie
                     Console.WriteLine("Generation n :" + compteurGeneration);       //Donne le numero de generation
                     Console.WriteLine("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");         // Affiche un compteur du nombre de cellules vivantes a la generation donnee.
 
-                    
 
-                    
+
+
                     if (etatsInter == "oui")
                     {
                         Console.WriteLine("Appuyer sur une touche pour continuer");
@@ -542,22 +567,22 @@ namespace JeuDeLaVie
                         Console.Clear();
                         //Cree une grille intermediaire.
                         AfficherGrille(GrilleEtatInter(grille, ligne, colonne));
-                        
+
 
                     }
 
                     Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
                     g = Convert.ToString(Console.ReadLine());
-                    grille = NewGrille(grille, ligne, colonne);
+                    grille = NewGrille(grille);
 
 
                 } while (g == "");
 
                 Console.WriteLine("Voulez vous recommencer ou fermer le programme\n 1 : Recommencer\n 2: Fermer\n");
                 h = Convert.ToInt16(Console.ReadLine());
-                
+
             } while (h != 2);
-            
+
             /*int h = 0;
 
 
