@@ -1,0 +1,75 @@
+static int[,] NewGrille(int[,] grille)
+        {
+            int[,] nouvelleGrille = new int[grille.GetLength(0), grille.GetLength(1)];
+            for (int i = 0; i < nouvelleGrille.GetLength(0); i++)
+            {
+                for (int j = 0; j < nouvelleGrille.GetLength(1); j++) //Cette boucle for et celle du dessus permettent de faire passer le curseur sur chaque case de la matrice
+                {
+                    int compteurFamille1Rang1 = 0;
+                    int compteurFamille2Rang1 = 0;
+                    int numLigne = i;
+                    int numColonne = j;
+                    for (numLigne = i - 1; numLigne <= i + 1; numLigne++)
+                    {
+                        for (numColonne = j - 1; numColonne <= j + 1; numColonne++) //Cette boucle for et celle du dessus permettent un scan des 8 cases autour du curseur
+                        {
+                            int numColonne2 = numColonne;
+                            int numLigne2 = numLigne;
+                            if (numLigne == grille.GetLength(0))//Si le curseur de scan est tout en bas de la matrice, la ligne du bas passe en haut de la matrice
+                            {
+                                numLigne = 0;
+                            }
+                            if (numLigne == -1)//Si le curseur de scan est tout en haut de la matrice, la ligne du haut passe en bas de la matrice
+                            {
+                                numLigne = grille.GetLength(0) - 1;
+                            }
+                            if (numColonne == -1)//Si le curseur de scan est tout à gauche de la matrice, la colonne de gauche passe à droite de la matrice 
+                            {
+                                numColonne = grille.GetLength(1) - 1;
+                            }
+                            if (numColonne == grille.GetLength(1))//Si le curseur de scan est tout à droite de la matrice, la colonne de droite passe à gauche de la matrice 
+                            {
+                                numColonne = 0;
+                            }
+                            if (grille[numLigne, numColonne] == 1)
+                            {
+                                compteurFamille1Rang1++;
+                            }
+                            if (grille[numLigne, numColonne] == 2)
+                            {
+                                compteurFamille2Rang1++;
+                            }
+                            numLigne = numLigne2;
+                            numColonne = numColonne2;
+                        }
+                    }
+
+                    if (grille[i, j] == 1)
+                    {
+                        compteurFamille1Rang1--;
+                    }
+                    if (grille[i, j] == 2)
+                    {
+                        compteurFamille2Rang1--;
+                    }
+
+
+                    if (compteurFamille1Rang1 < 2 || compteurFamille1Rang1 > 3 || compteurFamille2Rang1 < 2 || compteurFamille2Rang1 > 3)
+                    {
+                        nouvelleGrille[i, j] = 0;
+                    }
+                    else
+                    {
+                        if (compteurFamille1Rang1 == 3)
+                        {
+                            nouvelleGrille[i, j] = 1;
+                        }
+                        if (compteurFamille2Rang1 == 3)
+                        {
+                            nouvelleGrille[i, j] = 2;
+                        }
+                    }
+                }
+            }
+            return nouvelleGrille;
+        }
