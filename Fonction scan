@@ -9,6 +9,8 @@ static int[,] NewGrille(int[,] grille)
                     int compteurFamille2Rang1 = 0;
                     int numLigne = i;
                     int numColonne = j;
+                    
+                    //SCAN DE RANG 1
                     for (numLigne = i - 1; numLigne <= i + 1; numLigne++)
                     {
                         for (numColonne = j - 1; numColonne <= j + 1; numColonne++) //Cette boucle for et celle du dessus permettent un scan des 8 cases autour du curseur
@@ -44,6 +46,7 @@ static int[,] NewGrille(int[,] grille)
                         }
                     }
 
+                   
                     if (grille[i, j] == 1)
                     {
                         compteurFamille1Rang1--;
