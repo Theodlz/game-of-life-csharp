@@ -100,7 +100,7 @@ namespace JeuDeLaVie
                     int a = i;
                     int b = j;
 
-                    int k = 0;
+                    int k = 0; // Compteur du nombre de cellules vivantes
 
 
                     if (a == 0)
@@ -528,6 +528,38 @@ namespace JeuDeLaVie
             }
             return nouvelleGrille;
 
+        }
+        
+        static int CompteurCellulesVivantes1v1(int[,] grille)
+        {
+            int compteur = 0;
+            for (int i = 0; i < grille.GetLength(0); i++)
+            {
+
+                for (int j = 0; j < grille.GetLength(1); j++)
+                {
+
+                    if (grille[i, j] == 1)
+                    {
+
+                        compteur++;
+
+
+
+                    }
+                    if (grille[i, j] == 4)
+                    {
+
+                        compteur--;
+
+
+
+                    }
+
+                }
+                
+            }
+            return compteur;
         }
 
 
