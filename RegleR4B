@@ -1,4 +1,4 @@
-static void RegleR4B
+static int RegleR4B(int[,] grille)
 {
 compteur = 0;
 		for (numLigne = i - 2; numLigne <= i + 2; numLigne++)
@@ -52,5 +52,5 @@ compteur = 0;
                             numColonne = numColonne2;
                         }
                     }
-		    
+	return compteur;	    
 }
