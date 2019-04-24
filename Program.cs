@@ -120,8 +120,8 @@ namespace JeuDeLaVie
                             numColonne = numColonne2;
                         }
                     }
-                    
-                    nouvelleGrille[i,j]=grille[i,j];
+
+                    nouvelleGrille[i, j] = grille[i, j];
 
                     if (grille[i, j] == 1)
                     {
@@ -133,11 +133,11 @@ namespace JeuDeLaVie
                         nouvelleGrille[i, j] = 0;
                     }
                     if (compteur == 3)
-                        {
-                            nouvelleGrille[i, j] = 1;
-                        }
-                    
-                    
+                    {
+                        nouvelleGrille[i, j] = 1;
+                    }
+
+
                 }
             }
             return nouvelleGrille;
@@ -287,7 +287,7 @@ namespace JeuDeLaVie
                 int j = rand.Next(0, colonne);
                 if (grille[i, j] == 0)
                 {
-                    grille[i, j] = 4;
+                    grille[i, j] = 2;
                 }
                 else
                 {
@@ -359,7 +359,7 @@ namespace JeuDeLaVie
                     {
                         compteurFamille2Rang1--;
                     }
-                     nouvelleGrille[i,j]=grille[i,j];   
+                    nouvelleGrille[i, j] = grille[i, j];
 
                     if ((grille[i, j] == 1) && (compteurFamille1Rang1 < 2))
                         nouvelleGrille[i, j] = 0;
@@ -374,7 +374,7 @@ namespace JeuDeLaVie
 
                     if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3) && (compteurFamille2Rang1 == 3))
                     {
-                        if (RegleR4B(grille,i,j) > 0)
+                        if (RegleR4B(grille, i, j) > 0)
                             grille[i, j] = 1;
                         if (RegleR4B(grille, i, j) < 0)
                             grille[i, j] = 2;
@@ -448,7 +448,7 @@ namespace JeuDeLaVie
 
 
                     }
-                    
+
 
                 }
 
@@ -456,7 +456,7 @@ namespace JeuDeLaVie
             return compteur;
         }
 
-        static int RegleR4B(int[,] grille,int i, int j)
+        static int RegleR4B(int[,] grille, int i, int j)
         {
             int compteur = 0;
             for (int numLigne = i - 2; numLigne <= i + 2; numLigne++)
@@ -538,7 +538,7 @@ namespace JeuDeLaVie
 
                 int colonne = Convert.ToInt16(Console.ReadLine());
 
-                
+
 
 
 
@@ -550,116 +550,117 @@ namespace JeuDeLaVie
 
                 Console.WriteLine("Voulez vous afficher les etats intermediaires ? (oui/non)");
                 etatsInter = Convert.ToString(Console.ReadLine());
-                
+
                 Console.WriteLine("Choisissez le mode de jeu : ");
                 Console.WriteLine("Une seule population > 1 ");
                 Console.WriteLine("2 populations adverses > 2 ");
                 int choixMode = Convert.ToInt16(Console.ReadLine());
-                
-                if(choixMode==1)
+
+                if (choixMode == 1)
                 {
                     int[,] grille = Grille(ligne, colonne, remplissage);
                     do
-                {
-                    Console.Clear();
-                    AfficherGrille(grille);         //Affiche la grille de la nouvelle generation dans la console.
-                    Console.WriteLine("Generation n :" + compteurGeneration);       //Donne le numero de generation
-                    Console.WriteLine("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");         // Affiche un compteur du nombre de cellules vivantes a la generation donnee.
-
-
-
-
-                    if (etatsInter == "oui")
                     {
-                        Console.WriteLine("Appuyer sur une touche pour continuer");
-                        Console.ReadKey();
                         Console.Clear();
-                        //Cree une grille intermediaire.
-                        AfficherGrille(GrilleEtatInter(grille, ligne, colonne));
+                        AfficherGrille(grille);         //Affiche la grille de la nouvelle generation dans la console.
+                        Console.WriteLine("Generation n :" + compteurGeneration);       //Donne le numero de generation
+                        Console.WriteLine("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");         // Affiche un compteur du nombre de cellules vivantes a la generation donnee.
 
+
+
+
+                        if (etatsInter == "oui")
+                        {
+                            Console.WriteLine("Appuyer sur une touche pour continuer");
+                            Console.ReadKey();
+                            Console.Clear();
+                            //Cree une grille intermediaire.
+                            AfficherGrille(GrilleEtatInter(grille, ligne, colonne));
+
+
+                        }
+
+                        Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
+                        g = Convert.ToString(Console.ReadLine());
+                        grille = NewGrille(grille);
+
+
+                    } while (g == "");
+                }
+
+
+
+                    if (choixMode == 2)
+                    {
+                        int[,] grille = Grille1v1(ligne, colonne, remplissage);
+
+                        do
+                        {
+                            Console.Clear();
+                            AfficherGrille(grille);         //Affiche la grille de la nouvelle generation dans la console.
+                            Console.WriteLine("Generation n :" + compteurGeneration);       //Donne le numero de generation
+                            Console.WriteLine("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");         // Affiche un compteur du nombre de cellules vivantes a la generation donnee.
+
+
+
+
+                            if (etatsInter == "oui")
+                            {
+                                Console.WriteLine("Appuyer sur une touche pour continuer");
+                                Console.ReadKey();
+                                Console.Clear();
+                                //Cree une grille intermediaire.
+                                AfficherGrille(GrilleEtatInter(grille, ligne, colonne));
+
+
+                            }
+
+                            Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
+                            g = Convert.ToString(Console.ReadLine());
+                            grille = NewGrille1v1(grille);
+
+                        } while (g == "");
 
                     }
 
-                    Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
-                    g = Convert.ToString(Console.ReadLine());
-                    grille = NewGrille(grille);
+                    Console.WriteLine("Voulez vous recommencer ou fermer le programme\n 1 : Recommencer\n 2: Fermer\n");
+                    h = Convert.ToInt16(Console.ReadLine());
+
+                } while (h != 2) ;
 
 
-                } while (g == "");
 
-                
-            
-            if(choixMode==2)
-            {
+
+                /*int h = 0;
+
+
+                Console.Clear();
+
+                Console.WriteLine("Bienvenue au Jeu de la Vie !\n");
+
+                Console.WriteLine("Saisir une valeur de remplissage : (entre 0,1 ou 1)");
+
+                double remplissage = Convert.ToDouble(Console.ReadLine());
+
+                Console.WriteLine("Saisir un nombre de lignes : ");
+
+                int ligne = Convert.ToInt16(Console.ReadLine());
+
+                Console.WriteLine("Saisir un nombre de colonnes : ");
+
+                int colonne = Convert.ToInt16(Console.ReadLine());
+
                 int[,] grille = Grille1v1(ligne, colonne, remplissage);
-                
+
                 do
                 {
+                    AfficherGrille(grille);
+                    Console.ReadKey();
                     Console.Clear();
-                    AfficherGrille(grille);         //Affiche la grille de la nouvelle generation dans la console.
-                    Console.WriteLine("Generation n :" + compteurGeneration);       //Donne le numero de generation
-                    Console.WriteLine("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");         // Affiche un compteur du nombre de cellules vivantes a la generation donnee.
+                    grille = GrilleNouvelleGen1v1(grille, ligne, colonne);
+                } while (h != 1);
 
-
-
-
-                    if (etatsInter == "oui")
-                    {
-                        Console.WriteLine("Appuyer sur une touche pour continuer");
-                        Console.ReadKey();
-                        Console.Clear();
-                        //Cree une grille intermediaire.
-                        AfficherGrille(GrilleEtatInter(grille, ligne, colonne));
-
-
-                    }
-
-                    Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
-                    g = Convert.ToString(Console.ReadLine());
-                    grille = NewGrille(grille);
-                    
-               } while (g == "");
-                
+        */
             }
-
-            Console.WriteLine("Voulez vous recommencer ou fermer le programme\n 1 : Recommencer\n 2: Fermer\n");
-                h = Convert.ToInt16(Console.ReadLine());
-
-            } while (h != 2);
-                
-                
-                
-
-            /*int h = 0;
-
-
-            Console.Clear();
-
-            Console.WriteLine("Bienvenue au Jeu de la Vie !\n");
-
-            Console.WriteLine("Saisir une valeur de remplissage : (entre 0,1 ou 1)");
-
-            double remplissage = Convert.ToDouble(Console.ReadLine());
-
-            Console.WriteLine("Saisir un nombre de lignes : ");
-
-            int ligne = Convert.ToInt16(Console.ReadLine());
-
-            Console.WriteLine("Saisir un nombre de colonnes : ");
-
-            int colonne = Convert.ToInt16(Console.ReadLine());
-
-            int[,] grille = Grille1v1(ligne, colonne, remplissage);
-
-            do
-            {
-                AfficherGrille(grille);
-                Console.ReadKey();
-                Console.Clear();
-                grille = GrilleNouvelleGen1v1(grille, ligne, colonne);
-            } while (h != 1);
-            
-    */
-        }
     }
-}
+    }
