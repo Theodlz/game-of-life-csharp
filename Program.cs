@@ -28,13 +28,10 @@ namespace JeuDeLaVie
                 {
                     h--;
                 }
-
-
             }
-
             return grille;
-            
         }
+        
         static void AfficherGrille(int[,]grille)
         {
             for (int i = 0; i < grille.GetLength(0); i++)
@@ -78,8 +75,6 @@ namespace JeuDeLaVie
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write(" - ");
                         Console.ResetColor();
-
-
                     }
                 }
                 Console.WriteLine();
