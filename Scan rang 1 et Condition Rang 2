@@ -57,21 +57,39 @@ static int[,] NewGrille(int[,] grille)
                     }
 
 
-                    if (compteurFamille1Rang1 < 2 || compteurFamille1Rang1 > 3 || compteurFamille2Rang1 < 2 || compteurFamille2Rang1 > 3)
-                    {
+                    if ((grille[i, j] == 1) && (compteurFamille1Rang1 < 2))
                         nouvelleGrille[i, j] = 0;
-                    }
-                    else
+                    if ((grille[i, j] == 2) && (compteurFamille2Rang1 < 2))
+                        nouvelleGrille[i, j] = 0;
+
+                    if ((grille[i, j] == 1) && (compteurFamille1Rang1 > 3))
+                        nouvelleGrille[i, j] = 0;
+                    if ((grille[i, j] == 2) && (compteurFamille2Rang1 > 3))
+                        nouvelleGrille[i, j] = 0;
+                        
+                        
+                    if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3) && (compteurFamille1Rang2 == 3))
                     {
-                        if (compteurFamille1Rang1 == 3)
+                        if(RegleR4B(grille)>0)
+                                grille[i,j]=1;
+                        if(RegleR4B(grille)<0)
+                                grille[i,j]=2;
+                        if(RegleR4B(grille)=0)
                         {
-                            nouvelleGrille[i, j] = 1;
+                            if(CompteurCellulesVivantes1v1(grille)>0)
+                                grille[i,j]=1;
+                            if(CompteurCellulesVivantes1v1(grille)<0)
+                                grille[i,j]=2;
                         }
-                        if (compteurFamille2Rang1 == 3)
-                        {
-                            nouvelleGrille[i, j] = 2;
-                        }
+                                
+                       
+                    
                     }
+                        
+                    if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3))
+                        nouvelleGrille[i, j] = 1;
+                    if ((grille[i, j] == 0) && (compteurFamille2Rang1 == 3))
+                        nouvelleGrille[i, j] = 2;
                 }
             }
             return nouvelleGrille;
