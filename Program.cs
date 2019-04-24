@@ -597,15 +597,15 @@ namespace JeuDeLaVie
                     if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3) && (compteurFamille2Rang1 == 3))
                     {
                         if (RegleR4B(grille, i, j) > 0)
-                            grille[i, j] = 4;
+                            grilleEtatInter1v1[i, j] = 4;
                         if (RegleR4B(grille, i, j) < 0)
-                            grille[i, j] = 5;
+                            grilleEtatInter1v1[i, j] = 5;
                         if (RegleR4B(grille, i, j) == 0)
                         {
                             if (CompteurCellulesVivantes1v1(grille) > 0)
-                                grille[i, j] = 4;
+                                grilleEtatInter1v1[i, j] = 4;
                             if (CompteurCellulesVivantes1v1(grille) < 0)
-                                grille[i, j] = 5;
+                                grilleEtatInter1v1[i, j] = 5;
                         }
 
 
