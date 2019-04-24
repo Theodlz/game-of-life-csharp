@@ -301,7 +301,7 @@ namespace JeuDeLaVie
 
         }
 
-        static int[,] NewGrille(int[,] grille)
+        static int[,] NewGrille1v1(int[,] grille)
         {
             int[,] nouvelleGrille = new int[grille.GetLength(0), grille.GetLength(1)];
             for (int i = 0; i < nouvelleGrille.GetLength(0); i++)
@@ -429,6 +429,63 @@ namespace JeuDeLaVie
             }
             return compteur;
         }
+        
+        static int RegleR4B(int[,] grille)
+            {
+                compteur = 0;
+		            for (numLigne = i - 2; numLigne <= i + 2; numLigne++)
+                        {
+                        for (numColonne = j - 2; numColonne <= j + 2; numColonne++) //Cette boucle for et celle du dessus permettent un scan des 8 cases autour du curseur
+                        {
+                            int numColonne2 = numColonne;
+                            int numLigne2 = numLigne;
+                            if (numLigne == grille.GetLength(0))//Si le curseur de scan est tout en bas de la matrice, la ligne du bas passe en haut de la matrice
+                            {
+                                numLigne = 0;
+                            }
+                            if (numLigne == grille.GetLength(0) + 1)
+                            {
+                                numLigne = 1;
+                            }
+                            if (numLigne == -1)//Si le curseur de scan est tout en haut de la matrice, la ligne du haut passe en bas de la matrice
+                            {
+                                numLigne = grille.GetLength(0) - 1;
+                            }
+                            if (numLigne == -2)
+                            {
+                                numLigne = grille.GetLength(0) - 2;
+                            }
+                            if (numColonne == -1)//Si le curseur de scan est tout à gauche de la matrice, la colonne de gauche passe à droite de la matrice 
+                            {
+                                numColonne = grille.GetLength(1) - 1;
+                            }
+                            if (numColonne == -2)
+                            {
+                                numColonne = grille.GetLength(1) - 2;
+                            }
+                            if (numColonne == grille.GetLength(1))//Si le curseur de scan est tout à droite de la matrice, la colonne de droite passe à gauche de la matrice 
+                            {
+                                numColonne = 0;
+                            }
+                            if (numColonne == grille.GetLength(1) + 1)
+                            {
+                                numColonne = 1;
+                            }
+
+                            if (grille[numLigne, numColonne] == 1)
+                            {
+                                compteur++;
+                            }
+                            if (grille[numLigne, numColonne] == 2)
+                            {
+                                compteur--;
+                            }
+                            numLigne = numLigne2;
+                            numColonne = numColonne2;
+                        }
+                    }
+	            return compteur;	    
+            }
 
 
         [System.STAThreadAttribute()]
@@ -491,7 +548,7 @@ namespace JeuDeLaVie
 
                     Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
                     g = Convert.ToString(Console.ReadLine());
-                    grille = GrilleNouvelleGen(grille, ligne, colonne);
+                    grille = NewGrille(grille, ligne, colonne);
 
 
                 } while (g == "");
