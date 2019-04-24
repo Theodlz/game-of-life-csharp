@@ -301,144 +301,101 @@ namespace JeuDeLaVie
 
         }
 
-        static int[,] GrilleNouvelleGen1v1(int[,] grille, int ligne, int colonne)
+        static int[,] NewGrille(int[,] grille)
         {
-            int[,] nouvelleGrille = new int[ligne, colonne];
-
-            for (int i = 0; i < grille.GetLength(0); i++)
+            int[,] nouvelleGrille = new int[grille.GetLength(0), grille.GetLength(1)];
+            for (int i = 0; i < nouvelleGrille.GetLength(0); i++)
             {
-
-                for (int j = 0; j < grille.GetLength(1); j++)
+                for (int j = 0; j < nouvelleGrille.GetLength(1); j++) //Cette boucle for et celle du dessus permettent de faire passer le curseur sur chaque case de la matrice
                 {
-
-                    //Premiere ligne (ligne du haut)
-                    int a = i;
-                    int b = j;
-
-                    int pop1 = 0;
-                    int pop2 = 0;
-
-
-                    if (a == 0)
-                        a = grille.GetLength(0);
-                    if (b == 0)
-                        b = grille.GetLength(0);
-
-                    for (int ligne1 = 0; ligne1 < 3; ligne1++)
+                    int compteurFamille1Rang1 = 0;
+                    int compteurFamille2Rang1 = 0;
+                    int numLigne = i;
+                    int numColonne = j;
+                    
+                    //SCAN DE RANG 1
+                    for (numLigne = i - 1; numLigne <= i + 1; numLigne++)
                     {
-                        if (a == 0)
-                            a = grille.GetLength(0);
-
-
-                        if (grille[a - 1, b - 1] == 1)
+                        for (numColonne = j - 1; numColonne <= j + 1; numColonne++) //Cette boucle for et celle du dessus permettent un scan des 8 cases autour du curseur
                         {
-                            pop1++;
+                            int numColonne2 = numColonne;
+                            int numLigne2 = numLigne;
+                            if (numLigne == grille.GetLength(0))//Si le curseur de scan est tout en bas de la matrice, la ligne du bas passe en haut de la matrice
+                            {
+                                numLigne = 0;
+                            }
+                            if (numLigne == -1)//Si le curseur de scan est tout en haut de la matrice, la ligne du haut passe en bas de la matrice
+                            {
+                                numLigne = grille.GetLength(0) - 1;
+                            }
+                            if (numColonne == -1)//Si le curseur de scan est tout à gauche de la matrice, la colonne de gauche passe à droite de la matrice 
+                            {
+                                numColonne = grille.GetLength(1) - 1;
+                            }
+                            if (numColonne == grille.GetLength(1))//Si le curseur de scan est tout à droite de la matrice, la colonne de droite passe à gauche de la matrice 
+                            {
+                                numColonne = 0;
+                            }
+                            if (grille[numLigne, numColonne] == 1)
+                            {
+                                compteurFamille1Rang1++;
+                            }
+                            if (grille[numLigne, numColonne] == 2)
+                            {
+                                compteurFamille2Rang1++;
+                            }
+                            numLigne = numLigne2;
+                            numColonne = numColonne2;
                         }
-                        if (grille[a - 1, b - 1] == 4)
-                        {
-                            pop2++;
-                        }
-
-
-                        if (b == grille.GetLength(1))
-                        {
-                            b = 1;
-                        }
-                        else
-                        {
-                            b++;
-                        }
-
                     }
 
-                    //2e ligne (ligne du bas)
-
-                    a = i;
-                    b = j;
-
-                    if (a == grille.GetLength(0) - 1)
-                        a = -1;
-                    if (b == 0)
-                        b = grille.GetLength(0);
-
-                    for (int ligne2 = 0; ligne2 < 3; ligne2++)
+                   
+                    if (grille[i, j] == 1)
                     {
-
-                        if (grille[a + 1, b - 1] == 1)
-                        {
-                            pop1++;
-                        }
-                        if (grille[a + 1, b - 1] == 4)
-                        {
-                            pop2++;
-                        }
-
-                        if (b == grille.GetLength(1))
-                        {
-                            b = 1;
-                        }
-                        else
-                        {
-                            b++;
-                        }
-
-
-
-
+                        compteurFamille1Rang1--;
+                    }
+                    if (grille[i, j] == 2)
+                    {
+                        compteurFamille2Rang1--;
                     }
 
 
-                    a = i;
-                    b = j;
-
-                    //case de gauche
-
-                    if (j == 0)
-                        b = grille.GetLength(1) - 1;
-                    if (grille[a, b - 1] == 1)
-                        pop1++;
-                    if (grille[a, b - 1] == 4)
-                        pop2++;
-
-                    //case de droite
-
-                    b = j;
-                    if (j == grille.GetLength(1) - 1)
-                        b = 0;
-                    if (grille[a, b + 1] == 1)
-                        pop1++;
-                    if (grille[a, b + 1] == 4)
-                        pop2++;
-
-                    //On egalise la case
-
-                    nouvelleGrille[i, j] = grille[i, j];
-
-                    //On change les valeurs de la nouvelle matrice en fonction des regles du jeu
-
-                    if ((grille[i, j] == 1) && (pop1 < 2))
+                    if ((grille[i, j] == 1) && (compteurFamille1Rang1 < 2))
                         nouvelleGrille[i, j] = 0;
-                    if ((grille[i, j] == 4) && (pop2 < 2))
+                    if ((grille[i, j] == 2) && (compteurFamille2Rang1 < 2))
                         nouvelleGrille[i, j] = 0;
 
-                    if ((grille[i, j] == 1) && (pop1 > 3))
+                    if ((grille[i, j] == 1) && (compteurFamille1Rang1 > 3))
                         nouvelleGrille[i, j] = 0;
-                    if ((grille[i, j] == 4) && (pop2 > 3))
+                    if ((grille[i, j] == 2) && (compteurFamille2Rang1 > 3))
                         nouvelleGrille[i, j] = 0;
-
-                    if ((grille[i, j] == 0) && (pop1 == 3))
+                        
+                        
+                    if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3) && (compteurFamille1Rang2 == 3))
+                    {
+                        if(RegleR4B(grille)>0)
+                                grille[i,j]=1;
+                        if(RegleR4B(grille)<0)
+                                grille[i,j]=2;
+                        if(RegleR4B(grille)=0)
+                        {
+                            if(CompteurCellulesVivantes1v1(grille)>0)
+                                grille[i,j]=1;
+                            if(CompteurCellulesVivantes1v1(grille)<0)
+                                grille[i,j]=2;
+                        }
+                                
+                       
+                    
+                    }
+                        
+                    if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3))
                         nouvelleGrille[i, j] = 1;
-                    if ((grille[i, j] == 0) && (pop2 == 3))
-                        nouvelleGrille[i, j] = 4;
-
-
-
-
+                    if ((grille[i, j] == 0) && (compteurFamille2Rang1 == 3))
+                        nouvelleGrille[i, j] = 2;
                 }
-
             }
             return nouvelleGrille;
-
         }
         
         static int CompteurCellulesVivantes1v1(int[,] grille)
