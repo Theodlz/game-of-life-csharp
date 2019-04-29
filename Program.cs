@@ -151,118 +151,70 @@ namespace JeuDeLaVie
 
                 }
             }
+            
             return nouvelleGrille;
         }
-        static int[,] GrilleEtatInter(int[,] grille, int ligne, int colonne)
+        static int[,] GrilleEtatInter(int[,] grille)
         {
-            int[,] grilleEtatInter = new int[ligne, colonne];
-
-            for (int i = 0; i < grille.GetLength(0); i++)
+            int[,] grilleEtatInter = new int[grille.GetLength(0), grille.GetLength(1)];
+            for (int i = 0; i < grilleEtatInter.GetLength(0); i++)
             {
-
-                for (int j = 0; j < grille.GetLength(1); j++)
+                for (int j = 0; j < grilleEtatInter.GetLength(1); j++) //Cette boucle for et celle du dessus permettent de faire passer le curseur sur chaque case de la matrice
                 {
-
-                    //Premiere ligne (ligne du haut)
-                    int a = i;
-                    int b = j;
-
-                    int k = 0;
-
-
-                    if (a == 0)
-                        a = grille.GetLength(0);
-                    if (b == 0)
-                        b = grille.GetLength(0);
-
-                    for (int ligne1 = 0; ligne1 < 3; ligne1++)
+                    int compteur = 0;
+                    int numLigne = i;
+                    int numColonne = j;
+                    for (numLigne = i - 1; numLigne <= i + 1; numLigne++)
                     {
-                        if (a == 0)
-                            a = grille.GetLength(0);
-                        
-                        if (grille[a - 1, b - 1] == 1)
+                        for (numColonne = j - 1; numColonne <= j + 1; numColonne++) //Cette boucle for et celle du dessus permettent un scan des 8 cases autour du curseur
                         {
-                            k++;
+                            int numColonne2 = numColonne;
+                            int numLigne2 = numLigne;
+                            if (numLigne == -1)//Si le curseur de scan est tout en haut de la matrice, la ligne du haut passe en bas de la matrice
+                            {
+                                numLigne = grille.GetLength(0) - 1;
+                            }
+                            if (numLigne == grille.GetLength(0))//Si le curseur de scan est tout en bas de la matrice, la ligne du bas passe en haut de la matrice
+                            {
+                                numLigne = 0;
+                            }
+                            if (numColonne == -1)//Si le curseur de scan est tout à gauche de la matrice, la colonne de gauche passe à droite de la matrice 
+                            {
+                                numColonne = grille.GetLength(1) - 1;
+                            }
+                            if (numColonne == grille.GetLength(1))//Si le curseur de scan est tout à droite de la matrice, la colonne de droite passe à gauche de la matrice 
+                            {
+                                numColonne = 0;
+                            }
+                            if (grille[numLigne, numColonne] == 1)
+                            {
+                                compteur++;
+                            }
+                            numLigne = numLigne2;
+                            numColonne = numColonne2;
                         }
-
-
-                        if (b == grille.GetLength(1))
-                        {
-                            b = 1;
-                        }
-                        else
-                        {
-                            b++;
-                        }
-
                     }
-
-                    //2e ligne (ligne du bas)
-
-                    a = i;
-                    b = j;
-
-                    if (a == grille.GetLength(0) - 1)
-                        a = -1;
-                    if (b == 0)
-                        b = grille.GetLength(0);
-
-                    for (int ligne2 = 0; ligne2 < 3; ligne2++)
-                    {
-
-                        if (grille[a + 1, b - 1] == 1)
-                        {
-                            k++;
-                        }
-
-                        if (b == grille.GetLength(1))
-                        {
-                            b = 1;
-                        }
-                        else
-                        {
-                            b++;
-                        }
-
-                    }
-
-
-                    a = i;
-                    b = j;
-
-                    //case de gauche
-
-                    if (j == 0)
-                        b = grille.GetLength(1) - 1;
-                    if (grille[a, b - 1] == 1)
-                        k++;
-
-                    //case de droite
-
-                    b = j;
-                    if (j == grille.GetLength(1) - 1)
-                        b = 0;
-                    if (grille[a, b + 1] == 1)
-                        k++;
-
-                    //On egalise la case
 
                     grilleEtatInter[i, j] = grille[i, j];
 
-                    //On change les valeurs de la nouvelle matrice en fonction des regles du jeu
+                    if (grille[i, j] == 1)
+                    {
+                        compteur--;
+                    }
 
-                    if ((grille[i, j] == 1) && (k < 2))
+                    if (compteur < 2 || compteur > 3)
+                    {
                         grilleEtatInter[i, j] = 3;
-
-                    if ((grille[i, j] == 1) && (k > 3))
-                        grilleEtatInter[i, j] = 3;
-                    if ((grille[i, j] == 0) && (k == 3))
+                    }
+                    if (compteur == 3)
+                    {
                         grilleEtatInter[i, j] = 4;
-                }
+                    }
 
+
+                }
             }
             return grilleEtatInter;
-
         }
 
         static int[,] Grille1v1(int ligne, int colonne, double remplissage)
@@ -636,6 +588,7 @@ namespace JeuDeLaVie
                 if (choixMode == 1)
                 {
                     int[,] grille = Grille(ligne, colonne, remplissage);
+                    Fenetre gui = new Fenetre(grille, 15, 0, 0, "Jeu de la vie");
                     do
                     {
                         int compteurStabilisation = 0;
@@ -644,7 +597,7 @@ namespace JeuDeLaVie
                         AfficherGrille(grille);         //Affiche la grille de la nouvelle generation dans la console.
                         Console.WriteLine("Generation n :" + compteurGeneration);       //Donne le numero de generation
                         Console.WriteLine("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");         // Affiche un compteur du nombre de cellules vivantes a la generation donnee.
-                        
+
 
                         if (etatsInter == "oui")
                         {
@@ -652,16 +605,26 @@ namespace JeuDeLaVie
                             Console.ReadKey();
                             Console.Clear();
                             //Cree une grille intermediaire.
-                            int[,] grilleInter = GrilleEtatInter(grille, ligne, colonne);
+                            int[,] grilleInter = GrilleEtatInter(grille);
                             AfficherGrille(grilleInter);
-                            
+
                         }
 
                         Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
                         g = Convert.ToString(Console.ReadLine());
-                        grille = NewGrille(grille);
-                        
-                        if(nombreCellulesVivantes == CompteurCellulesVivantes(grille))
+                        int [,] newGrille = NewGrille(grille);
+
+                        for(int i=0;i<newGrille.GetLength(0);i++)
+                        {
+                            for(int j=0; j<newGrille.GetLength(1);j++)
+                            {
+                                grille[i, j] = newGrille[i, j];
+                                gui.RafraichirTout();
+                            }
+                        }
+
+
+                        if (nombreCellulesVivantes == CompteurCellulesVivantes(grille))
                         {
                             compteurStabilisation++;
                         }
@@ -682,6 +645,7 @@ namespace JeuDeLaVie
                 if (choixMode == 2)
                 {
                     int[,] grille = Grille1v1(ligne, colonne, remplissage);
+                    Fenetre gui = new Fenetre(grille, 15, 0, 0, "Jeu de la vie");
 
                     do
                     {
@@ -709,7 +673,15 @@ namespace JeuDeLaVie
 
                         Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
                         g = Convert.ToString(Console.ReadLine());
-                        grille = NewGrille1v1(grille);
+                        int [,] newGrille1v1 = NewGrille1v1(grille);
+                        for (int i = 0; i < newGrille1v1.GetLength(0); i++)
+                        {
+                            for (int j = 0; j < newGrille1v1.GetLength(1); j++)
+                            {
+                                grille[i, j] = newGrille1v1[i, j];
+                                gui.RafraichirTout();
+                            }
+                        }
 
                         if (nombreCellulesVivantes == CompteurCellulesVivantes(grille))
                         {
@@ -734,39 +706,6 @@ namespace JeuDeLaVie
 
             } while (h != 2);
 
-
-
-
-            /*int h = 0;
-
-
-            Console.Clear();
-
-            Console.WriteLine("Bienvenue au Jeu de la Vie !\n");
-
-            Console.WriteLine("Saisir une valeur de remplissage : (entre 0,1 ou 1)");
-
-            double remplissage = Convert.ToDouble(Console.ReadLine());
-
-            Console.WriteLine("Saisir un nombre de lignes : ");
-
-            int ligne = Convert.ToInt16(Console.ReadLine());
-
-            Console.WriteLine("Saisir un nombre de colonnes : ");
-
-            int colonne = Convert.ToInt16(Console.ReadLine());
-
-            int[,] grille = Grille1v1(ligne, colonne, remplissage);
-
-            do
-            {
-                AfficherGrille(grille);
-                Console.ReadKey();
-                Console.Clear();
-                grille = GrilleNouvelleGen1v1(grille, ligne, colonne);
-            } while (h != 1);
-
-    */
         }
     }
 }
