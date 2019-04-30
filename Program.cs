@@ -55,7 +55,7 @@ namespace JeuDeLaVie
 
 
                     }
-                    if (grille[i, j] == 2)
+                    if (grille[i, j] == 4)
                     {
                         //cellule vivante population 2
                         Console.ForegroundColor = ConsoleColor.DarkMagenta;
@@ -66,25 +66,33 @@ namespace JeuDeLaVie
                     }
                     if (grille[i, j] == 3)
                     {
-                        //cellule qui va mourir pour les etats inter
+                        //cellule qui va mourir pour les etats inter pop1
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.Write(" * ");
                         Console.ResetColor();
 
 
                     }
-                    if (grille[i, j] == 4)
+                    if (grille[i, j] == 2)
                     {
-                        //cellule pop 1 qui va naitre pour les etats inter 
+                        //cellule pop 1 qui va naitre pour les etats inter pop1
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.Write(" - ");
                         Console.ResetColor();
                     }
                     if (grille[i, j] == 5)
                     {
-                        //cellule pop 2 qui va naitre pour les etats inter 
+                        //cellule pop 2 qui va naitre pour les etats inter pop2
                         Console.ForegroundColor = ConsoleColor.DarkMagenta;
                         Console.Write(" - ");
+                        Console.ResetColor();
+                    }
+
+                    if (grille[i, j] == 6)
+                    {
+                        //cellule pop 2 qui va mourir pour les etats inter pop2
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write(" * ");
                         Console.ResetColor();
                     }
                 }
@@ -202,13 +210,14 @@ namespace JeuDeLaVie
                         compteur--;
                     }
 
-                    if (compteur < 2 || compteur > 3)
+                    if ((compteur < 2 || compteur > 3 )&& grille[i, j] == 1)
                     {
                         grilleEtatInter[i, j] = 3;
                     }
-                    if (compteur == 3)
+                    
+                    if (compteur == 3 && grille[i, j] == 0)
                     {
-                        grilleEtatInter[i, j] = 4;
+                        grilleEtatInter[i, j] = 2;
                     }
 
 
@@ -229,7 +238,7 @@ namespace JeuDeLaVie
                 int j = rand.Next(0, colonne);
                 if (grille[i, j] == 0)
                 {
-                    grille[i, j] = 1;
+                    grille[i, j] = 1; //pop1
                 }
                 else
                 {
@@ -242,7 +251,7 @@ namespace JeuDeLaVie
                 int j = rand.Next(0, colonne);
                 if (grille[i, j] == 0)
                 {
-                    grille[i, j] = 2;
+                    grille[i, j] = 4; //pop2
                 }
                 else
                 {
@@ -291,7 +300,7 @@ namespace JeuDeLaVie
                             {
                                 compteurFamille1Rang1++;
                             }
-                            if (grille[numLigne, numColonne] == 2)
+                            if (grille[numLigne, numColonne] == 4)
                             {
                                 compteurFamille2Rang1++;
                             }
@@ -305,7 +314,7 @@ namespace JeuDeLaVie
                     {
                         compteurFamille1Rang1--;
                     }
-                    if (grille[i, j] == 2)
+                    if (grille[i, j] == 4)
                     {
                         compteurFamille2Rang1--;
                     }
@@ -313,12 +322,12 @@ namespace JeuDeLaVie
 
                     if ((grille[i, j] == 1) && (compteurFamille1Rang1 < 2))
                         nouvelleGrille[i, j] = 0;
-                    if ((grille[i, j] == 2) && (compteurFamille2Rang1 < 2))
+                    if ((grille[i, j] == 4) && (compteurFamille2Rang1 < 2))
                         nouvelleGrille[i, j] = 0;
 
                     if ((grille[i, j] == 1) && (compteurFamille1Rang1 > 3))
                         nouvelleGrille[i, j] = 0;
-                    if ((grille[i, j] == 2) && (compteurFamille2Rang1 > 3))
+                    if ((grille[i, j] == 4) && (compteurFamille2Rang1 > 3))
                         nouvelleGrille[i, j] = 0;
 
 
@@ -327,20 +336,20 @@ namespace JeuDeLaVie
                         if (RegleR4B(grille, i, j) > 0)
                             grille[i, j] = 1;
                         if (RegleR4B(grille, i, j) < 0)
-                            grille[i, j] = 2;
+                            grille[i, j] = 4;
                         if (RegleR4B(grille, i, j) == 0)
                         {
                             if (CompteurCellulesVivantes1v1(grille) > 0)
                                 grille[i, j] = 1;
                             if (CompteurCellulesVivantes1v1(grille) < 0)
-                                grille[i, j] = 2;
+                                grille[i, j] = 4;
                         }
                     }
 
                     if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3))
                         nouvelleGrille[i, j] = 1;
                     if ((grille[i, j] == 0) && (compteurFamille2Rang1 == 3))
-                        nouvelleGrille[i, j] = 2;
+                        nouvelleGrille[i, j] = 4;
                 }
             }
             return nouvelleGrille;
@@ -373,7 +382,7 @@ namespace JeuDeLaVie
             {
                 for (int j = 0; j < grille.GetLength(1); j++)
                 {
-                    if (grille[i, j] == 1)
+                    if (grille[i, j] == 1 || grille[i,j]==4)
                     {
 
                         compteur++;
@@ -429,7 +438,7 @@ namespace JeuDeLaVie
                     {
                         compteur++;
                     }
-                    if (grille[numLigne, numColonne] == 2)
+                    if (grille[numLigne, numColonne] == 4)
                     {
                         compteur--;
                     }
@@ -479,7 +488,7 @@ namespace JeuDeLaVie
                             {
                                 compteurFamille1Rang1++;
                             }
-                            if (grille[numLigne, numColonne] == 2)
+                            if (grille[numLigne, numColonne] == 4)
                             {
                                 compteurFamille2Rang1++;
                             }
@@ -493,7 +502,7 @@ namespace JeuDeLaVie
                     {
                         compteurFamille1Rang1--;
                     }
-                    if (grille[i, j] == 2)
+                    if (grille[i, j] == 4)
                     {
                         compteurFamille2Rang1--;
                     }
@@ -501,25 +510,25 @@ namespace JeuDeLaVie
 
                     if ((grille[i, j] == 1) && (compteurFamille1Rang1 < 2))
                         grilleEtatInter1v1[i, j] = 3;
-                    if ((grille[i, j] == 2) && (compteurFamille2Rang1 < 2))
-                        grilleEtatInter1v1[i, j] = 3;
+                    if ((grille[i, j] == 4) && (compteurFamille2Rang1 < 2))
+                        grilleEtatInter1v1[i, j] = 6;
 
                     if ((grille[i, j] == 1) && (compteurFamille1Rang1 > 3))
                         grilleEtatInter1v1[i, j] = 3;
-                    if ((grille[i, j] == 2) && (compteurFamille2Rang1 > 3))
-                        grilleEtatInter1v1[i, j] = 3;
+                    if ((grille[i, j] == 4) && (compteurFamille2Rang1 > 3))
+                        grilleEtatInter1v1[i, j] = 6;
 
 
                     if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3) && (compteurFamille2Rang1 == 3))
                     {
                         if (RegleR4B(grille, i, j) > 0)
-                            grilleEtatInter1v1[i, j] = 4;
+                            grilleEtatInter1v1[i, j] = 2;
                         if (RegleR4B(grille, i, j) < 0)
                             grilleEtatInter1v1[i, j] = 5;
                         if (RegleR4B(grille, i, j) == 0)
                         {
                             if (CompteurCellulesVivantes1v1(grille) > 0)
-                                grilleEtatInter1v1[i, j] = 4;
+                                grilleEtatInter1v1[i, j] = 2;
                             if (CompteurCellulesVivantes1v1(grille) < 0)
                                 grilleEtatInter1v1[i, j] = 5;
                         }
@@ -529,7 +538,7 @@ namespace JeuDeLaVie
                     }
 
                     if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3))
-                        grilleEtatInter1v1[i, j] = 4;
+                        grilleEtatInter1v1[i, j] = 2;
                     if ((grille[i, j] == 0) && (compteurFamille2Rang1 == 3))
                         grilleEtatInter1v1[i, j] = 5;
                 }
@@ -588,7 +597,16 @@ namespace JeuDeLaVie
                 if (choixMode == 1)
                 {
                     int[,] grille = Grille(ligne, colonne, remplissage);
-                    Fenetre gui = new Fenetre(grille, 15, 0, 0, "Jeu de la vie");
+                    int[,] grilleAfficher = new int[grille.GetLength(0), grille.GetLength(1)];
+                    for (int i = 0; i < grille.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < grille.GetLength(1); j++)
+                        {
+                            grilleAfficher[i, j] = grille[i, j];
+
+                        }
+                    }
+                    Fenetre gui = new Fenetre(grilleAfficher, 15, 0, 0, "Jeu de la vie");
                     do
                     {
                         int compteurStabilisation = 0;
@@ -597,6 +615,7 @@ namespace JeuDeLaVie
                         AfficherGrille(grille);         //Affiche la grille de la nouvelle generation dans la console.
                         Console.WriteLine("Generation n :" + compteurGeneration);       //Donne le numero de generation
                         Console.WriteLine("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");         // Affiche un compteur du nombre de cellules vivantes a la generation donnee.
+                        gui.changerMessage("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");
 
 
                         if (etatsInter == "oui")
@@ -607,22 +626,31 @@ namespace JeuDeLaVie
                             //Cree une grille intermediaire.
                             int[,] grilleInter = GrilleEtatInter(grille);
                             AfficherGrille(grilleInter);
+                            for (int i = 0; i < grille.GetLength(0); i++)
+                            {
+                                for (int j = 0; j < grille.GetLength(1); j++)
+                                {
+                                    grilleAfficher[i, j] = grilleInter[i, j];
+
+                                }
+                            }
+                            gui.RafraichirTout();
 
                         }
 
                         Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
                         g = Convert.ToString(Console.ReadLine());
-                        int [,] newGrille = NewGrille(grille);
+                        grille = NewGrille(grille);
 
-                        for(int i=0;i<newGrille.GetLength(0);i++)
+                        for(int i=0;i<grille.GetLength(0);i++)
                         {
-                            for(int j=0; j<newGrille.GetLength(1);j++)
+                            for(int j=0; j<grille.GetLength(1);j++)
                             {
-                                grille[i, j] = newGrille[i, j];
-                                gui.RafraichirTout();
+                                grilleAfficher[i, j] = grille[i, j];
+                                
                             }
                         }
-
+                        gui.RafraichirTout();
 
                         if (nombreCellulesVivantes == CompteurCellulesVivantes(grille))
                         {
@@ -645,7 +673,17 @@ namespace JeuDeLaVie
                 if (choixMode == 2)
                 {
                     int[,] grille = Grille1v1(ligne, colonne, remplissage);
-                    Fenetre gui = new Fenetre(grille, 15, 0, 0, "Jeu de la vie");
+                    int[,] grilleAfficher = new int[grille.GetLength(0), grille.GetLength(1)];
+                    for (int i = 0; i < grille.GetLength(0); i++)
+                    {
+                        for (int j = 0; j < grille.GetLength(1); j++)
+                        {
+                            grilleAfficher[i, j] = grille[i, j];
+
+                        }
+                    }
+                    Fenetre gui = new Fenetre(grilleAfficher, 15, 0, 0, "Jeu de la vie");
+                    
 
                     do
                     {
@@ -655,7 +693,7 @@ namespace JeuDeLaVie
                         AfficherGrille(grille);         //Affiche la grille de la nouvelle generation dans la console.
                         Console.WriteLine("Generation n :" + compteurGeneration);       //Donne le numero de generation
                         Console.WriteLine("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");         // Affiche un compteur du nombre de cellules vivantes a la generation donnee.
-
+                        gui.changerMessage("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");
 
 
 
@@ -667,21 +705,31 @@ namespace JeuDeLaVie
                             //Cree une grille intermediaire.
                             int[,] grilleInter = GrilleEtatInter1v1(grille);
                             AfficherGrille(grilleInter);
+                            for (int i = 0; i < grille.GetLength(0); i++)
+                            {
+                                for (int j = 0; j < grille.GetLength(1); j++)
+                                {
+                                    grilleAfficher[i, j] = grilleInter[i, j];
+
+                                }
+                            }
+                            gui.RafraichirTout();
 
 
                         }
 
                         Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
                         g = Convert.ToString(Console.ReadLine());
-                        int [,] newGrille1v1 = NewGrille1v1(grille);
-                        for (int i = 0; i < newGrille1v1.GetLength(0); i++)
+                        grille = NewGrille1v1(grille);
+                        for (int i = 0; i < grille.GetLength(0); i++)
                         {
-                            for (int j = 0; j < newGrille1v1.GetLength(1); j++)
+                            for (int j = 0; j < grille.GetLength(1); j++)
                             {
-                                grille[i, j] = newGrille1v1[i, j];
-                                gui.RafraichirTout();
+                                grilleAfficher[i, j] = grille[i, j];
+                                
                             }
                         }
+                        gui.RafraichirTout();
 
                         if (nombreCellulesVivantes == CompteurCellulesVivantes(grille))
                         {
