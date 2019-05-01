@@ -397,7 +397,7 @@ namespace JeuDeLaVie
             int compteur = 0;
             for (int numLigne = i - 2; numLigne <= i + 2; numLigne++)
             {
-                for (int numColonne = j - 2; numColonne <= j + 2; numColonne++) //Cette boucle for et celle du dessus permettent un scan des 8 cases autour du curseur
+                for (int numColonne = j - 2; numColonne <= j + 2; numColonne++) //Cette boucle for et celle du dessus permettent un scan des 24 cases autour du curseur
                 {
                     int numColonne2 = numColonne;
                     int numLigne2 = numLigne;
