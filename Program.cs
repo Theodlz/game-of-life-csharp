@@ -150,19 +150,19 @@ namespace JeuDeLaVie
                     {
                         compteur--;
                     }
-                    
+
                     if (compteur < 2 || compteur > 3)
                     {
                         nouvelleGrille[i, j] = 0;
                     }
-                    
+
                     if (compteur == 3)
                     {
                         nouvelleGrille[i, j] = 1;
                     }
                 }
             }
-            
+
             return nouvelleGrille;
         }
         static int[,] GrilleEtatInter(int[,] grille)
@@ -217,7 +217,7 @@ namespace JeuDeLaVie
                     {
                         grilleEtatInter[i, j] = 3;
                     }
-                    
+
                     if (compteur == 3 && grille[i, j] == 0)
                     {
                         grilleEtatInter[i, j] = 2;
@@ -232,7 +232,7 @@ namespace JeuDeLaVie
             int[,] grille = new int[ligne, colonne];
             int totalRemplissage = Convert.ToInt16(remplissage * (colonne * ligne) / 2);
             Random rand = new Random();
-            
+
             //remplissage de cases aléatoirement choisies par des cellules vivantes de la population 1 (première boucle for) puis de la population 2 (deuxième boucle for)
             for (int k = 0; k < totalRemplissage; k++)
             {
@@ -263,7 +263,7 @@ namespace JeuDeLaVie
             return grille;
         }
 
-        static int[,] NewGrille1v1(int[,] grille)
+        static int[,] NewGrille1v1(int[,] grille, string varianteR4B)
         {
             int[,] nouvelleGrille = new int[grille.GetLength(0), grille.GetLength(1)];
             for (int i = 0; i < nouvelleGrille.GetLength(0); i++)
@@ -335,16 +335,29 @@ namespace JeuDeLaVie
                     //application de la règle R4B
                     if ((grille[i, j] == 0) && (compteurFamille1Rang1 == 3) && (compteurFamille2Rang1 == 3))
                     {
-                        if (RegleR4B(grille, i, j) > 0)
+                        if (RegleR4B(grille, i, j) > 0) //si population 1 > population 2 au voisinage de rang 2 ...
                             grille[i, j] = 1;
-                        if (RegleR4B(grille, i, j) < 0)
+                        if (RegleR4B(grille, i, j) < 0) //si population 2 > population 1 au voisinage de rang 2 ...
                             grille[i, j] = 4;
-                        if (RegleR4B(grille, i, j) == 0)
+                        if (RegleR4B(grille, i, j) == 0) //si égalité des deux populations au voisinage de rang 2 ...
                         {
-                            if (CompteurCellulesVivantes1v1(grille) > 0)
+                            if (CompteurCellulesVivantes1v1(grille) > 0) //si population 1 > population 2 sur le total de la grille
                                 grille[i, j] = 1;
-                            if (CompteurCellulesVivantes1v1(grille) < 0)
+                            if (CompteurCellulesVivantes1v1(grille) < 0) //si population 2 > population 1 sur le total de la grille
                                 grille[i, j] = 4;
+                            if (varianteR4B == "oui" && CompteurCellulesVivantes1v1(grille) == 0) //si le bonus n°2 est activé et égalité deux populations sur le total de la grille ...
+                            {
+                                Random rand = new Random();
+                                int random = rand.Next(1, 3);
+                                if(random == 1)
+                                {
+                                    grille[i, j] = 1;
+                                }
+                                if(random == 2)
+                                {
+                                    grille[i, j] = 4;
+                                }
+                            }
                         }
                     }
 
@@ -388,7 +401,7 @@ namespace JeuDeLaVie
             {
                 for (int j = 0; j < grille.GetLength(1); j++)
                 {
-                    if (grille[i, j] == 1 || grille[i,j]==4)
+                    if (grille[i, j] == 1 || grille[i, j] == 4)
                     {
 
                         compteur++;
@@ -399,6 +412,7 @@ namespace JeuDeLaVie
         }
 
         static int RegleR4B(int[,] grille, int i, int j)
+        //compteur des cellules vivantes de chaque population présentes sur les 24 cases autour du curseur
         {
             int compteur = 0;
             for (int numLigne = i - 2; numLigne <= i + 2; numLigne++)
@@ -575,14 +589,30 @@ namespace JeuDeLaVie
 
                 int colonne = Convert.ToInt16(Console.ReadLine());
 
+                Console.WriteLine("Voulez-vous activer le bonus de la variante de la règle R4B ? (oui/non)");
+                string varianteR4B = Convert.ToString(Console.ReadLine());
+                if(varianteR4B == "oui")
+                {
+                    Console.WriteLine("Bonus règle R4B activé !\n");
+                }
+                else
+                {
+                    Console.WriteLine("Bonus règle R4B désactivé !\n");
+                }
+
                 Console.WriteLine("Voulez-vous activer le bonus de l'état stable ? (oui/non)");
 
                 string etatStable = Convert.ToString(Console.ReadLine());
                 int nbrEtatAStabiliser = 99999999;
                 if (etatStable == "oui")
                 {
+                    Console.WriteLine("Bonus état stable activé !");
                     Console.WriteLine("Pour combien d'états voulez-vous vérifier la stabilité ?");
                     nbrEtatAStabiliser = Convert.ToInt16(Console.ReadLine());
+                }
+                else
+                {
+                    Console.WriteLine("Bonus état stable désactivé !");
                 }
 
                 string g = "";
@@ -621,7 +651,6 @@ namespace JeuDeLaVie
                         Console.WriteLine("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");         // Affiche un compteur du nombre de cellules vivantes a la generation donnee.
                         gui.changerMessage("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");
 
-
                         if (etatsInter == "oui")
                         {
                             Console.WriteLine("Appuyer sur une touche pour continuer");
@@ -635,7 +664,6 @@ namespace JeuDeLaVie
                                 for (int j = 0; j < grille.GetLength(1); j++)
                                 {
                                     grilleAfficher[i, j] = grilleInter[i, j];
-
                                 }
                             }
                             gui.RafraichirTout();
@@ -646,12 +674,12 @@ namespace JeuDeLaVie
                         g = Convert.ToString(Console.ReadLine());
                         grille = NewGrille(grille);
 
-                        for(int i=0;i<grille.GetLength(0);i++)
+                        for (int i = 0; i < grille.GetLength(0); i++)
                         {
-                            for(int j=0; j<grille.GetLength(1);j++)
+                            for (int j = 0; j < grille.GetLength(1); j++)
                             {
                                 grilleAfficher[i, j] = grille[i, j];
-                                
+
                             }
                         }
                         gui.RafraichirTout();
@@ -687,7 +715,7 @@ namespace JeuDeLaVie
                         }
                     }
                     Fenetre gui = new Fenetre(grilleAfficher, 15, 0, 0, "Jeu de la vie");
-                    
+
 
                     do
                     {
@@ -724,13 +752,12 @@ namespace JeuDeLaVie
 
                         Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
                         g = Convert.ToString(Console.ReadLine());
-                        grille = NewGrille1v1(grille);
+                        grille = NewGrille1v1(grille, varianteR4B);
                         for (int i = 0; i < grille.GetLength(0); i++)
                         {
                             for (int j = 0; j < grille.GetLength(1); j++)
                             {
                                 grilleAfficher[i, j] = grille[i, j];
-                                
                             }
                         }
                         gui.RafraichirTout();
