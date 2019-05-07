@@ -725,9 +725,9 @@ namespace JeuDeLaVie
                         
                         int nombreCellulesVivantes = CompteurCellulesVivantes(grille);
                         Console.Clear();
-                        AfficherGrille(grille);         //Affiche la grille de la nouvelle generation dans la console.
-                        Console.WriteLine("Generation n :" + compteurGeneration);       //Donne le numero de generation
-                        Console.WriteLine("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");         // Affiche un compteur du nombre de cellules vivantes a la generation donnee.
+                        AfficherGrille(grille);         //affiche la grille de la nouvelle generation dans la console.
+                        Console.WriteLine("Génération n :" + compteurGeneration);       //donne le numero de generation
+                        Console.WriteLine("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");         // affiche un compteur du nombre de cellules vivantes a la génération donnee.
                         gui.changerMessage("Il y a " + CompteurCellulesVivantes(grille) + " cellules vivantes");
 
 
@@ -737,7 +737,7 @@ namespace JeuDeLaVie
                             Console.WriteLine("Appuyer sur une touche pour continuer");
                             Console.ReadKey();
                             Console.Clear();
-                            //Cree une grille intermediaire.
+                            //crée une grille intermédiaire.
                             int[,] grilleInter = GrilleEtatInter1v1(grille);
                             AfficherGrille(grilleInter);
                             for (int i = 0; i < grille.GetLength(0); i++)
@@ -753,7 +753,7 @@ namespace JeuDeLaVie
 
                         }
 
-                        Console.WriteLine("Appuyer sur Entree pour passer a la generation suivante, ou saisissez 'stop' pour arreter");
+                        Console.WriteLine("Appuyer sur Entrée pour passer a la génération suivante, ou saisissez 'stop' pour arrêter");
                         g = Convert.ToString(Console.ReadLine());
                         grille = NewGrille1v1(grille, varianteR4B);
                         for (int i = 0; i < grille.GetLength(0); i++)
@@ -776,7 +776,7 @@ namespace JeuDeLaVie
                         if (compteurStabilisation == nbrEtatAStabiliser)
                         {
                             g = "stop";
-                            Console.WriteLine("La generation est stable depuis " + nbrEtatAStabiliser + " generations. On peut donc arreter le programme.");
+                            Console.WriteLine("La grille est stable depuis " + nbrEtatAStabiliser + " générations. On peut donc arrêter le programme.");
                         }
                         compteurGeneration++;
 
