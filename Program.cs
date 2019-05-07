@@ -349,11 +349,11 @@ namespace JeuDeLaVie
                             {
                                 Random rand = new Random();
                                 int random = rand.Next(1, 3);
-                                if(random == 1)
+                                if (random == 1)
                                 {
                                     grille[i, j] = 1;
                                 }
-                                if(random == 2)
+                                if (random == 2)
                                 {
                                     grille[i, j] = 4;
                                 }
@@ -591,7 +591,7 @@ namespace JeuDeLaVie
 
                 Console.WriteLine("Voulez-vous activer le bonus de la variante de la règle R4B ? (oui/non)");
                 string varianteR4B = Convert.ToString(Console.ReadLine());
-                if(varianteR4B == "oui")
+                if (varianteR4B == "oui")
                 {
                     Console.WriteLine("Bonus règle R4B activé !\n");
                 }
@@ -625,7 +625,7 @@ namespace JeuDeLaVie
 
                 Console.WriteLine("Choisissez le mode de jeu : ");
                 Console.WriteLine("Une seule population > 1 ");
-                Console.WriteLine("2 populations adverses > 2 ");
+                Console.WriteLine("Deux populations adverses > 2 ");
                 int choixMode = Convert.ToInt16(Console.ReadLine());
 
                 if (choixMode == 1)
@@ -641,9 +641,10 @@ namespace JeuDeLaVie
                         }
                     }
                     Fenetre gui = new Fenetre(grilleAfficher, 15, 0, 0, "Jeu de la vie");
+                    int compteurStabilisation = 0;
                     do
                     {
-                        int compteurStabilisation = 0;
+                        
                         int nombreCellulesVivantes = CompteurCellulesVivantes(grille);
                         Console.Clear();
                         AfficherGrille(grille);         //Affiche la grille de la nouvelle generation dans la console.
@@ -695,6 +696,7 @@ namespace JeuDeLaVie
                         if (compteurStabilisation == nbrEtatAStabiliser)
                         {
                             g = "stop";
+                            Console.WriteLine("La generation est stable depuis " + nbrEtatAStabiliser + " generations. On peut donc arreter le programme.");
                         }
                         compteurGeneration++;
                     } while (g == "");
@@ -715,11 +717,12 @@ namespace JeuDeLaVie
                         }
                     }
                     Fenetre gui = new Fenetre(grilleAfficher, 15, 0, 0, "Jeu de la vie");
+                    int compteurStabilisation = 0;
 
 
                     do
                     {
-                        int compteurStabilisation = 0;
+                        
                         int nombreCellulesVivantes = CompteurCellulesVivantes(grille);
                         Console.Clear();
                         AfficherGrille(grille);         //Affiche la grille de la nouvelle generation dans la console.
@@ -773,6 +776,7 @@ namespace JeuDeLaVie
                         if (compteurStabilisation == nbrEtatAStabiliser)
                         {
                             g = "stop";
+                            Console.WriteLine("La generation est stable depuis " + nbrEtatAStabiliser + " generations. On peut donc arreter le programme.");
                         }
                         compteurGeneration++;
 
